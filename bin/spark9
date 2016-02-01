@@ -1,0 +1,48 @@
+#!/bin/bash
+
+export JAVA_HOME=/usr/lib/jvm/java
+export HADOOP_INSTALL=/usr/local/hadoop
+export HADOOP_CONF_DIR=$HADOOP_INSTALL/etc/hadoop
+export SPARK_HOME=/usr/local/spark
+export PYTHONPATH=$SPARK_HOME/python:$PYTHONPATH
+
+# SPARK_JAVA_OPTS+=" -verbose:gc -XX:-PrintGCDetails -XX:+PrintGCTimeStamps -XX:+UseParallelGC"
+# export SPARK_JAVA_OPTS
+
+# to config the log output
+## SPARK_JAVA_OPTS+=" -Dlog4j.configuration=/home/mahmed/workspace/spark_scripts/conf/log4j.properties"
+
+# set the
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 APPNAME" >&2
+    exit 1
+else
+    APP_NAME=$1
+fi
+
+NUM_EXECUTORS=25
+EXECUTOR_CORES=25 
+EXECUTOR_MEMORY=500M 
+KRYOSERIALIZER_BUFFER=500M
+SPARK_MASTER=yarn-client
+QUEUE=alpha
+#default 
+SPARK_UI_PORT=9194
+DEFAULT_PARALLELISM=25
+_PYSPARK_DRIVER_PYTHON=ipython
+_PYSPARK_DRIVER_PYTHON_OPTS='notebook --no-browser --ip=192.168.0.93 --port=9090'
+
+export IPYTHON=1
+PYSPARK_DRIVER_PYTHON=$_PYSPARK_DRIVER_PYTHON \
+     PYSPARK_DRIVER_PYTHON_OPTS=$_PYSPARK_DRIVER_PYTHON_OPTS \
+     $SPARK_HOME/bin/pyspark \
+        --master $SPARK_MASTER \
+	--num-executors $NUM_EXECUTORS \
+        --executor-memory $EXECUTOR_MEMORY \
+	--conf spark.app.name=$APP_NAME \
+ 	--conf spark.ui.port=$SPARK_UI_PORT \
+	--conf spark.executor.cores=$EXECUTOR_CORES \
+	--conf spark.kryoserializer.buffer=$KRYOSERIALIZER_BUFFER \
+ 	--conf spark.default.parallelism=$DEFAULT_PARALLELISM \
+ 	--queue $QUEUE
+
