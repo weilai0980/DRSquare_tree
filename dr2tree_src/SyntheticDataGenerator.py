@@ -4,7 +4,7 @@ import sys
 import csv
 
 class SyntheticDataGenerator:
-    def __init__(self, rows, cols, features, mu_range = 200, sigma = 10, thresh = 0.01, outlier = 1000000):
+    def __init__(self, rows, cols, features, thresh,  outlier, mu_range = 100, sigma = 1, ):
         self.rows = rows
         self.cols = cols
         self.data = [[0 for _ in range(cols + 1)] for _ in range(rows)]
@@ -33,8 +33,12 @@ class SyntheticDataGenerator:
         distr = {}
         for i in range(self.rows):
             for j in range(self.cols):
-                self.data[i][j] = 10**j + int(np.random.uniform(features))
+                self.data[i][j] = int(np.random.uniform(features))
             if np.random.uniform(0, 1) < thresh:
+                
+                #
+                outlier =  mu_range* outlier
+                
                 self.data[i][self.cols] = np.random.normal(outlier, 1, 1)[0]
                 continue
             if tuple(self.data[i]) in distr:
