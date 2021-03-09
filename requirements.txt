@@ -1,4 +1,4 @@
-Pillow==2.6.1
+Pillow==7.1.0
 Pyste==0.9.10
 WebHDFS==0.2.0
 argparse==1.2.1
