@@ -1,6 +1,4 @@
-# DRSquare_tree
-
-# Temporal mixture models
+# Efficient Distributed Decision Trees for Robust Regression
 
 
 
