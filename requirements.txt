@@ -19,7 +19,7 @@ numpy==1.9.1
 pandas==0.15.1
 pbr==0.10.2
 ply==3.4
-protobuf==2.6.1
+protobuf==3.18.3
 pyOpenSSL==0.14
 pyasn1==0.1.7
 pycparser==2.10
